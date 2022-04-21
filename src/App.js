@@ -1,7 +1,13 @@
+import "./App.css"
+import Navbar from "./components/Navbar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 function App() {
   return (
     <div>
-      <h1>THIS IS E-COMMERCE WEBSITE</h1>
+      <Router>
+        <Navbar />
+      </Router>
     </div>
   );
 }
