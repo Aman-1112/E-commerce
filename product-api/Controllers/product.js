@@ -10,6 +10,7 @@ try {
     let queryJson=JSON.stringify(query);
     queryJson=queryJson.replace(/\b(gte|gt|lte|lt)\b/g,match=>`$${match}`);
     query=JSON.parse(queryJson);
+    console.log(query);
     let queryObj =  productModel.find(query);
 //SORTING
     if(req.query.sort){
@@ -55,13 +56,8 @@ exports.getProduct=async(req,res)=>{
 
 exports.getSearchItem=async(req,res)=>{
     let str=req.params.searchItem;
-    var pattern = str.split("").map((x)=>{
-        return `(?=.*${x}.*)`
-    }).join("");
-    var regex = new RegExp(`${pattern}`, "ig")
-    console.log(regex);
-    console.log(req.query)
-    console.log({name:regex,...req.query});
+    const pattern=new RegExp(`(\\S)*${str}(\\S)*`,'ig')
+    console.log({name:pattern,...req.query});
 
 /***repeated Code***/
     let query={...req.query};
@@ -72,7 +68,7 @@ exports.getSearchItem=async(req,res)=>{
     let queryJson=JSON.stringify(query);
     queryJson=queryJson.replace(/\b(gte|gt|lte|lt)\b/g,match=>`$${match}`);
     query=JSON.parse(queryJson);
-    let queryObj =  productModel.find({name:regex,...query});
+    let queryObj =  productModel.find({name:pattern,...query});
 //SORTING
     if(req.query.sort){
         let sortBy=req.query.sort;
