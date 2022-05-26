@@ -1,10 +1,9 @@
-.card-of-list {
+.card {
     height: 500px;
-    width: 250px;
+    width: 300px;
     display: inline-block;
     margin: 1rem;
     margin-top:4rem;
-    color:black;
 }
 
 .cardList {
@@ -13,4 +12,3 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
-
