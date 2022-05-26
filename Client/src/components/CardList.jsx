@@ -33,7 +33,7 @@ export default function CardList() {
             headers: { "Content-type": "application/json" },
             params: {
                 page:pages,
-                limit:3,//for smooth rendering use limit=6
+                limit:8,//for smooth rendering use limit=6
             },
         });
         console.log("resonse");
@@ -54,10 +54,11 @@ export default function CardList() {
                     </p>
                 }
             >
-                <div class="cardList">
+                <div className="cardList">
                     {product && product.map((ele) => {
                             return (
                                 <Card 
+                                key={ele.name}
                                 name={ele.name}
                                 imageUrl={ele.image}
                                 brand={ele.brand}
