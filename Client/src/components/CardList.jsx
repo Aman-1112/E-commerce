@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Card from "./Card";
 
 export default function CardList() {
     const [product, setProduct] = useState([]);
-    const [pages, setPage] = useState(1);
+    const [pages, setPages] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const [lte, setLte] = useState('100');
+    const [realTimeLte, setRealTimeLte] = useState('100');
+    const [category, setCategory] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState([]);
+    const [price, setPrice] = useState('price');
+    const [count, setCount] = useState(1);
 
     useEffect(() => {
+        console.log("useEffect called");
         const waiting = async () => {
             let res = await fetchProductsLocal();
             let nextProductList = res.data.data;
-            setProduct((product) => {
+            setProduct(() => {
                 return [...product, ...nextProductList];
             });
             if (nextProductList.length === 0 || product.length > 100) {
@@ -21,14 +28,15 @@ export default function CardList() {
             }
         };
         waiting();
-    }, [pages]);
+    }, [count,pages,lte,category,price]);
 
     function fetchData() {
         console.log("fetchData called");
-        setPage((pages) => pages + 1);
+        setPages(pages + 1);
         console.log(`pages=${pages}`);
     }
     const fetchProductsLocal = async () => {
+        console.log("axios called ...");
         const res = await axios.get(`/api/v1/product/List`, {
             headers: { "Content-type": "application/json" },
             params: {
@@ -40,14 +48,71 @@ export default function CardList() {
         console.log(res.data);
         return res;
     };
-
+    function handleFilter() {
+        console.log('Apply Filter called')
+        setLte(realTimeLte);
+        setCategory(selectedCategory);
+        ///***** */
+        var select = document.querySelector('.form-select');
+        var value = select.options[select.selectedIndex].value;
+        if(value==='Desc'){
+            setPrice('-price');
+        }
+        else{
+            setPrice('price');
+        }
+        ///*** */
+            setCount(count+1);
+            setProduct([]);
+            setPages(1);
+            setHasMore(true);
+    }
+    function toggle(e) {
+        if(selectedCategory.includes(e.target.id)){
+            let x=selectedCategory.filter((ele)=>ele!==e.target.id);
+            setSelectedCategory(x)
+        }
+        else{
+            setSelectedCategory([...selectedCategory,e.target.id])
+        }
+    }
     return (
         <>
+            <div>
+                <input type="range" onChange={(e) => setRealTimeLte(e.target.value)} value={realTimeLte}  min="0" max="100" id="customRange3" />
+                <p>Price less than:{realTimeLte}</p>
+                <p>Category</p>
+                <div className="d-block">
+                    <input onClick={toggle} type="checkbox" id="men"></input>
+                    <label  htmlFor="men">men</label>
+                </div >
+                <div className="d-block">
+                    <input  onClick={toggle} type="checkbox" id="women"></input>
+                    <label  htmlFor="women">women</label>
+                </div>
+                <div className="d-block">
+                    <input onClick={toggle}  type="checkbox" id="electronics"></input>
+                    <label  htmlFor="electronics">electronics</label>
+                </div>
+                
+                <h6>Sort By Price</h6>
+                <select className="form-select" >
+                    <option value="Asc">Asc</option>
+                    <option value="Desc">Desc</option>
+                </select>
+                <button onClick={handleFilter}>Apply Filter</button>
+            </div>
+            
+
             <InfiniteScroll
                 dataLength={product.length} //This is important field to render the next data
                 next={fetchData}
                 hasMore={hasMore}
-                loader={<h4>Loading...</h4>}
+                loader={<div className="m-5 d-flex justify-content-center">
+                            <div className="spinner-border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>}
                 endMessage={
                     <p style={{ textAlign: "center" }}>
                         <b>Yay! You have seen it all</b>

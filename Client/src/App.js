@@ -1,3 +1,4 @@
+import {useState} from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import CardList from "./components/CardList";
@@ -7,6 +8,10 @@ import Signup from "./components/Signup";
 import ForgotPassword from "./pages/forgotPassword";
 
 function App() {
+  const [searchItem, setSearchItem] = useState(null);
+  function handleSearch(x){
+    setSearchItem(x);
+  }
   return (
     <div>
       <Router>
