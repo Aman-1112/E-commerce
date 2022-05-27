@@ -15,8 +15,8 @@ function CreateProduct() {
         <div className='text-center'>
             <h3 >New Product</h3>
             <form  /* method='POST' */ /* action='/api/v1/product/create' */>{/* WHY DON'T WE USE ACTION FOR SENDING DATA */}
-                <label className="my-3" htmlFor='name'>Name: </label>
-                <input id='name' type="text" autoComplete='off' onChange={handleChange} placeholder="Product Name"></input>
+                <label className="my-3 " htmlFor='name'>Name: </label>
+                <input id='name' className='w-25' type="text" autoComplete='off' onChange={handleChange} placeholder="Product Name must including brand Name"></input>
                 <br />
 
                 <label className="my-3" htmlFor='brand'>Brand: </label>

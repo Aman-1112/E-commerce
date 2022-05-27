@@ -32,6 +32,7 @@ function SearchList(props) {
     const searchItem = props.match.params.searchItem;
     useEffect(() => {
         props.fetchSearchedProducts(searchItem);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const firstUpdate = useRef(true);
@@ -43,6 +44,7 @@ function SearchList(props) {
 
         let newProductList = props.ProductList.filter((ele) => ele.name.match(regex));
         setSearchList(newProductList);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props])
 
     function handleClick() {
@@ -62,7 +64,7 @@ function SearchList(props) {
         // console.log(value);
         if (value === "Desc")
             productList = productList.sort((a, b) => (b.price - a.price));
-
+        else
         productList = productList.sort((a, b) => a.price - b.price);
 
         setFilteredSearchList(productList);

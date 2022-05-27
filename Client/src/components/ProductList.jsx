@@ -6,47 +6,43 @@ import { fetchAllProducts } from './actions';
 import Card from './Card';
 
 function ProductList(props) {
-  const [allproducts, setAllproducts] = useState([])
-  const [index, setIndex] = useState(0)
-  const [items, setItems] = useState([])
+  const [productList, setProductList] = useState([]);
+  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true)
 
   useEffect(() => {
-    props.fetchAllProducts();
+    props.fetchAllProducts(page);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const firstUpdate = useRef(true);
-  useEffect(() => {
-    if (firstUpdate.current) {//!
+
+  useEffect(() => {//WILL NOT RUN ON INITIAL RENDER so we used firstUpdate
+    if (firstUpdate.current) {
       firstUpdate.current = false;
       return;
     }
-    if (props.fetchProductReducer.length !== 0) {
-      setAllproducts([...props.fetchProductReducer])
+    if (props.fetchProductReducer.length < (page * 4)) {//where 4 is limit
+      setHasMore(false);
     }
+    setProductList(props.fetchProductReducer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props])
 
+  function fetchData() {
+    setPage(page + 1);
+  }
+
   useEffect(() => {
-    if (allproducts.length !== 0) {
-      setItems([...items, ...allproducts.slice(index, index + 4)])
-      setIndex(index + 4)
+    if (productList.length !== 0) {
+      props.fetchAllProducts(page);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allproducts])
+  }, [page])
 
-
-  function fetchData() {
-    if (index >= allproducts.length) {
-      setHasMore(false)
-    } else {
-      setItems([...items, ...allproducts.slice(index, index + 4)])
-      setIndex(index + 4)
-    }
-  }
   return (
     <InfiniteScroll
-      dataLength={items.length}
+      dataLength={productList.length}
       next={fetchData}
       hasMore={hasMore}
       loader={
@@ -62,9 +58,9 @@ function ProductList(props) {
         </p>
       }
     >
-      {items.length !== 0 && (
+      {productList.length !== 0 && (
         <div style={{ textAlign: 'center' }}>
-          {items.map((ele, index) => (
+          {productList.map((ele, index) => (
             <Card
               key={index}
               id={ele._id}
@@ -85,3 +81,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { fetchAllProducts })(ProductList)
+

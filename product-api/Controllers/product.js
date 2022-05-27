@@ -2,7 +2,14 @@ const productModel = require('../Models/productModel');
 
 exports.getProductList = async (req, res) => {
     try {
-        const productList = await productModel.find();
+        console.log(req.query);
+        let  query = productModel.find();
+        //pagination and limit
+        let page=req.query.page||1;
+        let limit=req.query.limit||4;
+        let skip=(page-1)*limit;
+
+        const productList=await query.skip(skip).limit(limit);
         res.status(200).json({
             status: "success",
             results: productList.length,

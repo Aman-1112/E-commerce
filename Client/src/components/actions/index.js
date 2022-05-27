@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-export const fetchAllProducts = () => {
+export const fetchAllProducts = (page) => {
     return (
         async (dispatch, _getState) => {
-            const res = await axios.get('/api/v1/product/List');
+            const res = await axios.get('/api/v1/product/List',{
+                params:{
+                    page:page,
+                    limit:4
+                }
+            });
             // console.log(res.data.data);
             const data = res.data.data;
             dispatch({ type: 'FETCH_PRODUCTS', payload: data })
