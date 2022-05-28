@@ -20,6 +20,9 @@ const productSchema=new mongoose.Schema({
     price:{
         type:Number,
         required:[true,'A Product must have price']
+    },
+    description:{
+        type:String
     }
 });
 

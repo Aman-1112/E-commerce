@@ -1,103 +1,66 @@
 const productModel = require('../Models/productModel');
 
-exports.getProductList=async(req,res)=>{
-    let query={...req.query};
-try {
-//FILTERING
-    const excludeKey=['sort','field','page','limit'];
-    excludeKey.forEach(ele=>delete query[ele]);
+exports.getProductList = async (req, res) => {
+    try {
+        console.log(req.query);
+        let  query = productModel.find();
+        //pagination and limit
+        let page=req.query.page||1;
+        let limit=req.query.limit||4;
+        let skip=(page-1)*limit;
 
-    let queryJson=JSON.stringify(query);
-    queryJson=queryJson.replace(/\b(gte|gt|lte|lt)\b/g,match=>`$${match}`);
-    query=JSON.parse(queryJson);
-    let queryObj =  productModel.find(query);
-//SORTING
-    if(req.query.sort){
-        let sortBy=req.query.sort;
-        sortBy=sortBy.split(',').join(' ');
-        queryObj=queryObj.sort(sortBy);
+        const productList=await query.skip(skip).limit(limit);
+        res.status(200).json({
+            status: "success",
+            results: productList.length,
+            data: productList
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: "Some Error happened on Our Side",
+            Error: error
+        });
     }
-//PROJECTION
-    if(req.query.fields){
-        let fields=req.query.fields;
-        fields=fields.split(',').join(' ');
-        queryObj=queryObj.select(fields);
-    }
-// PAGINATION
-console.log(req.query);
-const page=Number(req.query.page)||1;
-console.log(page);
-const limit=Number(req.query.limit)||5;
-const skip=(page-1)*limit;
-
-queryObj=queryObj.skip(skip).limit(limit);
-const productList=await queryObj;
-res.status(200).json({ 
-    status:"success",
-    results:productList.length,
-    data:productList
-})
-} catch (error) {
-    res.status(500).json({
-        message:"Some Error happened on Our Side",
-        Error:error
-    });
-}
 }
 
-exports.getProduct=async(req,res)=>{
-    const product=await productModel.findById(req.params.id);
-    res.status(200).json({ 
-        status:"success",
-        data:product
+exports.getProduct = async (req, res) => {
+    try {
+        const product = await productModel.findById(req.params.id);
+        res.status(200).json({
+        status: "success",
+        data: product
     })
+    } catch (error) {
+        res.status(500).json({
+            message: "Some Error happened on Our Side",
+            Error: error
+        });
+    }
+    
 }
 
-exports.getSearchItem=async(req,res)=>{
-    let str=req.params.searchItem;
-    var pattern = str.split("").map((x)=>{
-        return `(?=.*${x}.*)`
-    }).join("");
-    var regex = new RegExp(`${pattern}`, "ig")
+exports.getSearchItem = async (req, res) => {
+    try {
+        let str = req.params.searchItem;
+    var regex = new RegExp(`${str}`, "ig")
     console.log(regex);
-    console.log(req.query)
-    console.log({name:regex,...req.query});
-
-/***repeated Code***/
-    let query={...req.query};
-//FILTERING
-    const excludeKey=['sort','field','page','limit'];
-    excludeKey.forEach(ele=>delete query[ele]);
-
-    let queryJson=JSON.stringify(query);
-    queryJson=queryJson.replace(/\b(gte|gt|lte|lt)\b/g,match=>`$${match}`);
-    query=JSON.parse(queryJson);
-    let queryObj =  productModel.find({name:regex,...query});
-//SORTING
-    if(req.query.sort){
-        let sortBy=req.query.sort;
-        sortBy=sortBy.split(',').join(' ');
-        queryObj=queryObj.sort(sortBy);
+    const productList = await productModel.find({ name: regex })
+    res.status(200).json({
+        status: "success",
+        results: productList.length,
+        productList
+    })
+    } catch (error) {
+        res.status(500).json({
+            message: "Some Error happened on Our Side",
+            Error: error
+        });
     }
-//PROJECTION
-    if(req.query.fields){
-        let fields=req.query.fields;
-        fields=fields.split(',').join(' ');
-        queryObj=queryObj.select(fields);
-    }
-// PAGINATION
-console.log(req.query);
-const page=Number(req.query.page)||1;
-console.log(page);
-const limit=Number(req.query.limit)||5;
-const skip=(page-1)*limit;
+    
+}
 
-queryObj=queryObj.skip(skip).limit(limit);
-const productList=await queryObj;
-res.status(200).json({ 
-    status:"success",
-    results:productList.length,
-    data:productList
-})
-/***repeated Code ***/
+exports.createProduct = async(req,res)=>{
+    console.log(req.body);
+    await productModel.create(req.body);
+    res.send(200).send();
 }
