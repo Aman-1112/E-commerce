@@ -1,9 +1,10 @@
-.card {
+.card-of-list {
     height: 500px;
-    width: 300px;
+    width: 250px;
     display: inline-block;
     margin: 1rem;
     margin-top:4rem;
+    color:black;
 }
 
 .cardList {
@@ -11,4 +12,9 @@
     justify-content: space-evenly;
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+.card-img-top{
+    height: 300px;
+    width: 250px;
 }
