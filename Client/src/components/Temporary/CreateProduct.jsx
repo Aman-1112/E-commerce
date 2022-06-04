@@ -1,15 +1,15 @@
 import axios from 'axios';
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 
 function CreateProduct() {
     const [newProduct, setNewProduct] = useState({
-        name: "", brand: "", image:"",category:"", price:"" ,description:""
+        name: "", brand: "", image: "", category: "", price: "", description: ""
     });
     function handleChange(e) {
-        setNewProduct({...newProduct,[e.target.id]:e.target.value});
+        setNewProduct({ ...newProduct, [e.target.id]: e.target.value });
     }
     function handleSubmit() {
-        axios.post('/api/v1/product/create',newProduct);
+        axios.post('/api/v1/product/create', newProduct);
     }
     return (
         <div className='text-center'>
@@ -37,7 +37,7 @@ function CreateProduct() {
 
                 <label className="my-3" htmlFor='description'>Description: </label>
                 <input id='description' type="text" onChange={handleChange} placeholder="Product Description"></input>
-                <br/>
+                <br />
 
                 <button onClick={handleSubmit}>Add Product</button>
             </form>

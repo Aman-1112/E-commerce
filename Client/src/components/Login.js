@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import GoogleIcon from '../images/google-icon.svg'
 import FacebookIcon from '../images/facebook-icon.svg'
-
-const Login = () => {
+import { connect } from 'react-redux'
+import { verifyToken } from './actions/index';
+import Google from './Google'
+import Facebook from './Facebook'
+const Login = (props) => {
     const [credentials, setCredentials] = useState({ email: "", password: "" })
-    let navigate = useNavigate();
+    let history = useHistory();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,7 +23,8 @@ const Login = () => {
         console.log(json);
         if (json.success) {
             localStorage.setItem('token', json.authtoken);
-            navigate('/');
+            props.verifyToken(localStorage.getItem('token'));
+            history.push('/');
         }
         else {
             alert('Invalid Credentials')
@@ -63,8 +67,10 @@ const Login = () => {
                                 <div className="line" style={{ borderTop: '1px solid black', width: '33%' }}></div>
                             </div>
                             <div className="social-login-icons my-3 d-flex align-items-center justify-content-evenly">
-                                <a href='/#'><img src={GoogleIcon} alt="Google" height={35} width={35} /></a>
-                                <a href='/#'><img src={FacebookIcon} alt="Facebook" height={35} width={35} /></a>
+                                <Google />
+                                <Facebook />
+                                {/* <a href='/#'><img src={GoogleIcon} alt="Google" height={35} width={35} /></a> */}
+                                {/* <a href='/#'><img src={FacebookIcon} alt="Facebook" height={35} width={35} /></a> */}
                             </div>
                         </div>
                     </div>
@@ -74,4 +80,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default connect(null, { verifyToken })(Login)

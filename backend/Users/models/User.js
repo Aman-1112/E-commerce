@@ -7,17 +7,32 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
+        // required: true,
         unique: true
     },
     password: {
-        type: String,
-        required: true
+        type: String
+        // ,
+        // required: true //DUE TO FB AND GOOGLE
     },
+    myCart:[
+        {
+        type:Object
+        }
+    ],
+    tokens:[
+        {
+            token:{
+                type:String,
+                required:true
+            }
+        }
+    ],
+    fbId:String,
     date: {
         type: Date,
         default: Date.now
-    },
+    }
 });
 
 module.exports = mongoose.model('user', userSchema);

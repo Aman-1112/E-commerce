@@ -65,7 +65,7 @@ function SearchList(props) {
         if (value === "Desc")
             productList = productList.sort((a, b) => (b.price - a.price));
         else
-        productList = productList.sort((a, b) => a.price - b.price);
+            productList = productList.sort((a, b) => a.price - b.price);
 
         setFilteredSearchList(productList);
     }

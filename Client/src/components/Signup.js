@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import GoogleIcon from '../images/google-icon.svg'
-import FacebookIcon from '../images/facebook-icon.svg'
+import { Link, useHistory } from 'react-router-dom'
+// import GoogleIcon from '../images/google-icon.svg'
+// import FacebookIcon from '../images/facebook-icon.svg'
+import { connect } from 'react-redux'
+import { verifyToken } from './actions/index';
+import Google from './Google';
+import Facebook from './Facebook'
 
-export default function Signup() {
+function Signup(props) {
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "", confirmPassword: "" })
-    let navigate = useNavigate();
+    let history = useHistory();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,7 +25,8 @@ export default function Signup() {
         console.log(json);
         if (json.success) {
             localStorage.setItem('token', json.authtoken);
-            navigate('/home');
+            props.verifyToken(localStorage.getItem('token'));
+            history.push('/home');
         }
         else {
             alert('Invalid Credentials')
@@ -69,8 +74,10 @@ export default function Signup() {
                             <div className="line" style={{ borderTop: '1px solid black', width: '33%' }}></div>
                         </div>
                         <div className="social-login-icons my-3 d-flex align-items-center justify-content-evenly">
-                            <a href='/#'><img src={GoogleIcon} alt="Google" height={35} width={35} /></a>
-                            <a href='/#'><img src={FacebookIcon} alt="Facebook" height={35} width={35} /></a>
+                            <Google />
+                            <Facebook />
+                            {/* <a href='/#'><img src={GoogleIcon} alt="Google" height={35} width={35} /></a> */}
+                            {/* <a href='/#'><img src={FacebookIcon} alt="Facebook" height={35} width={35} /></a> */}
                         </div>
                     </div>
                 </div>
@@ -78,3 +85,5 @@ export default function Signup() {
         </div>
     )
 }
+
+export default connect(null, { verifyToken })(Signup)

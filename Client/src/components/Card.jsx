@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Card.css';
 function Card(props) {
     return (
-        
+
         <Link to={`/product/${props.id}`}>
             <div className="card card-of-list">
                 <img className="card-img-top" src={`http://${props.imageUrl}`} alt="..." />
