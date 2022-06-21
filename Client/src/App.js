@@ -10,6 +10,7 @@ import ProductPage from "./components/ProductPage";
 import CreateProduct from "./components/Temporary/CreateProduct";
 import ShoppingCart from "./components/ShoppingCart";
 import Shipping from"./components/Shipping";
+import Profile from './components/Profile';
 import { BrowserRouter as Router,Switch,Route} from "react-router-dom";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/createproduct" component={CreateProduct}></Route>
           <Route exact path="/cart" component={ShoppingCart}></Route>
           <Route exact path="/shipping" component={Shipping}></Route>
+          <Route exact path="/profile" component={Profile}></Route>
           <Route component={Errorpage}></Route>
         </Switch>
       </Router>
