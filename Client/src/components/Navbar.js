@@ -56,7 +56,12 @@ function Navbar(props) {
                         </div>
                     </div>
                 </div>
-                {isSignedIn ? <h6 style={{ marginRight: "5rem" }}>Welcome! <br />{(props.userDetail.profile.name)}</h6> : null}
+                
+                {isSignedIn ?<>
+                    <Link to="/profile"><img style={{border:"1px solid black",borderRadius:"100%"}} src={`${props.userDetail.profile.avatar}&size=50`} alt='profilepic'></img></Link>
+                    <h6 style={{ marginRight: "5rem" }}> Welcome! <br />{(props.userDetail.profile.name)}</h6></>
+                    : 
+                    null}
             </nav>
         </div>
     )

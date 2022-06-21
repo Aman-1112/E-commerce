@@ -1,10 +1,12 @@
+const productModel=require('../../product-api/Models/productModel'); 
 const mongoose = require('mongoose');
-
+const { Schema } = mongoose;
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
+    avatar:String,
     email: {
         type: String,
         // required: true,
@@ -20,6 +22,27 @@ const userSchema = new mongoose.Schema({
         type:Object
         }
     ],
+    orders:[
+        {
+            orderedItems:[{
+                // productId:{type:Schema.Types.ObjectId,ref:'productModel'},
+                productName:String,
+                quantity:Number
+            }],
+            shippingAddress:{
+                phoneNo:Number,
+                streetAddress:String,
+                city:String,
+                zipCode:Number,
+                country:String,
+            },
+            orderedAt:{
+                type:Date,
+                default: Date.now  //Both are correct ... this is function
+            },
+            deliveryDate:String
+        }
+    ],
     tokens:[
         {
             token:{
@@ -29,9 +52,9 @@ const userSchema = new mongoose.Schema({
         }
     ],
     fbId:String,
-    date: {
+    createdAt: {
         type: Date,
-        default: Date.now
+        default: ()=>Date.now() //Both are correct ... 
     }
 });
 

@@ -5,10 +5,11 @@ import { Link, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { verifyToken } from './actions/index';
 import Google from './Google';
-import Facebook from './Facebook'
+// import Facebook from './Facebook';
 
 function Signup(props) {
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "", confirmPassword: "" })
+    const [showPassword, setShowPassword] = useState(false);
     let history = useHistory();
 
     const handleSubmit = async (e) => {
@@ -55,13 +56,19 @@ function Signup(props) {
                             <label htmlFor="email" className="form-label">Email address</label>
                             <input type="email" className="form-control" id="email" name='email' aria-describedby="emailHelp" onChange={onChange} required />
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="password" className="form-label">Password</label>
-                            <input type="password" className="form-control" id="password" name='password' onChange={onChange} minLength={5} required />
+                        <label htmlFor="password" className="form-label">Password</label>
+                        <div className="input-group mb-3">
+                            <input type={showPassword?"text":"password"} className="form-control" id="password" name='password' onChange={onChange} minLength={5} required />
+                            {showPassword?
+                                <span onClick={()=>setShowPassword(false)} class="input-group-text" id="basic-addon1"><i class="fa-solid fa-eye"></i></span>
+                                :<span onClick={()=>setShowPassword(true)} class="input-group-text" id="basic-addon1"><i class="fa-solid fa-eye-slash"></i></span>}
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="confirmPassword" className="form-label">Re-enter Password</label>
-                            <input type="password" className="form-control" id="confirmPassword" name='confirmPassword' onChange={onChange} minLength={5} required />
+                        <label htmlFor="confirmPassword" className="form-label">Re-enter Password</label>
+                        <div className="input-group mb-3">
+                            <input type={showPassword?"text":"password"} className="form-control" id="confirmPassword" name='confirmPassword' onChange={onChange} minLength={5} required />
+                            {showPassword?
+                                <span onClick={()=>setShowPassword(false)} class="input-group-text" id="basic-addon1"><i class="fa-solid fa-eye"></i></span>
+                                :<span onClick={()=>setShowPassword(true)} class="input-group-text" id="basic-addon1"><i class="fa-solid fa-eye-slash"></i></span>}
                         </div>
                         <div className="button text-center my-4">
                             <button type="submit" className="btn btn-primary col-4">Submit</button>
@@ -75,7 +82,7 @@ function Signup(props) {
                         </div>
                         <div className="social-login-icons my-3 d-flex align-items-center justify-content-evenly">
                             <Google />
-                            <Facebook />
+                            {/* <Facebook /> */}
                             {/* <a href='/#'><img src={GoogleIcon} alt="Google" height={35} width={35} /></a> */}
                             {/* <a href='/#'><img src={FacebookIcon} alt="Facebook" height={35} width={35} /></a> */}
                         </div>

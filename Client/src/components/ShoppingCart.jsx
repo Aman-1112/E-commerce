@@ -34,6 +34,7 @@ function ShoppingCart(props) {
     function handleProductPrice() {
         if (props.userDetail.cartItems)
             return (props.userDetail.cartItems.map((item, index) =>
+                
                 <tr>
                     <th scope="row">{index + 1}</th>
                     <td>{item.product.name}</td>
@@ -44,7 +45,7 @@ function ShoppingCart(props) {
         let total = 0;
         if (props.userDetail.cartItems.length !== 0) {
             props.userDetail.cartItems.forEach(item => total += (item.product.price * item.quantity))
-            total += 10.00;
+            total += 50.00;
             return total.toFixed(2);
         } else {
             return '0.00';
@@ -75,7 +76,7 @@ function ShoppingCart(props) {
                             {props.userDetail.cartItems.length ? <tr>
                                 <td></td>
                                 <td>Delivery Charge</td>
-                                <td>$10.00</td>
+                                <td>$50.00</td>
                             </tr> : null}
                             <tr>
                                 <td></td>
@@ -84,7 +85,9 @@ function ShoppingCart(props) {
                             </tr>
                         </tbody>
                     </table>
-                    <a href="/#" className="btn btn-dark w-100">Checkout</a>
+                    {props.userDetail.cartItems.length ?
+                        <Link to="/shipping" className="btn btn-dark w-100">Place Order</Link>
+                        : <Link to="/shipping" className="btn btn-dark disabled w-100">Place Order</Link>}
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fetchuser = require("../middleware/fetchuser");
 const { find, findByIdAndUpdate } = require('../models/User');
-
+// const productModel=require('../../product-api/Models/productModel')
 const JWT_SECRET = 'qwert12345';
 
 // create a user using POST "/api/auth/createuser"
@@ -29,8 +29,24 @@ router.post('/createuser', [
 
         const salt = await bcrypt.genSalt(10);
         const seqPass = await bcrypt.hash(req.body.password, salt);
+
+        /*******avatar logic */
+        const [first,second]=req.body.name.split(/\s+/);
+        const colorArray = ['FF6633', 'FFB399', 'FF33FF', 'FFFF99', '00B3E6', 
+		  'E6B333', '3366E6', '999966', '99FF99', 'B34D4D',
+		  '80B300', '809900', 'E6B3B3', '6680B3', '66991A', 
+		  'FF99E6', 'CCFF1A', 'FF1A66', 'E6331A', '33FFCC',
+		  '66994D', 'B366CC', '4D8000', 'B33300', 'CC80CC', 
+		  '66664D', '991AFF', 'E666FF', '4DB3FF', '1AB399',
+		  'E666B3', '33991A', 'CC9999', 'B3B31A', '00E680', 
+		  '4D8066', '809980', 'E6FF80', '1AFF33', '999933',
+		  'FF3380', 'CCCC00', '66E64D', '4D80CC', '9900B3', 
+		  'E64D66', '4DB380', 'FF4D4D', '99E6E6', '6666FF'];
+        let random=Math.floor(Math.random()*50);
+        /******************* */
         user = await User.create({
             name: req.body.name,
+            avatar:`https://ui-avatars.com/api/?name=${first}+${second}?background=${colorArray[random]}`,
             email: req.body.email,
             password: seqPass,
         });
@@ -56,9 +72,24 @@ router.post('/fbLogin', async (req, res) => {
     // console.log(req.body);
     try {
         let fbUser = await User.findOne({ fbId: req.body.id });
-        if (!fbUser) {
+        if (!fbUser) {       
+        /*******avatar logic */
+        const [first,second]=req.body.name.split(/\s+/);
+        const colorArray = ['FF6633', 'FFB399', 'FF33FF', 'FFFF99', '00B3E6', 
+		  'E6B333', '3366E6', '999966', '99FF99', 'B34D4D',
+		  '80B300', '809900', 'E6B3B3', '6680B3', '66991A', 
+		  'FF99E6', 'CCFF1A', 'FF1A66', 'E6331A', '33FFCC',
+		  '66994D', 'B366CC', '4D8000', 'B33300', 'CC80CC', 
+		  '66664D', '991AFF', 'E666FF', '4DB3FF', '1AB399',
+		  'E666B3', '33991A', 'CC9999', 'B3B31A', '00E680', 
+		  '4D8066', '809980', 'E6FF80', '1AFF33', '999933',
+		  'FF3380', 'CCCC00', '66E64D', '4D80CC', '9900B3', 
+		  'E64D66', '4DB380', 'FF4D4D', '99E6E6', '6666FF'];
+        let random=Math.floor(Math.random()*50);
+        /******************* */
             let user = await User.create({
                 name: req.body.name,
+                avatar:`https://ui-avatars.com/api/?name=${first}+${second}?background=${colorArray[random]}`,
                 fbId: req.body.id
             })
 
@@ -92,8 +123,23 @@ router.post('/fbLogin', async (req, res) => {
 router.post('/googleLogin', async (req, res) => {
     let user = await User.findOne({ email: req.body.email })//FIND ONE RETURNS NULL IF DOESN'T FIND ANYTHING
     if (!user) {
+        /*******avatar logic */
+        const [first,second]=req.body.name.split(/\s+/);
+        const colorArray = ['FF6633', 'FFB399', 'FF33FF', 'FFFF99', '00B3E6', 
+		  'E6B333', '3366E6', '999966', '99FF99', 'B34D4D',
+		  '80B300', '809900', 'E6B3B3', '6680B3', '66991A', 
+		  'FF99E6', 'CCFF1A', 'FF1A66', 'E6331A', '33FFCC',
+		  '66994D', 'B366CC', '4D8000', 'B33300', 'CC80CC', 
+		  '66664D', '991AFF', 'E666FF', '4DB3FF', '1AB399',
+		  'E666B3', '33991A', 'CC9999', 'B3B31A', '00E680', 
+		  '4D8066', '809980', 'E6FF80', '1AFF33', '999933',
+		  'FF3380', 'CCCC00', '66E64D', '4D80CC', '9900B3', 
+		  'E64D66', '4DB380', 'FF4D4D', '99E6E6', '6666FF'];
+        let random=Math.floor(Math.random()*50);
+        /******************* */
         let newUser = await User.create({
             name: req.body.name,
+            avatar:`https://ui-avatars.com/api/?name=${first}+${second}?background=${colorArray[random]}`,
             email: req.body.email
         })
         const data = {
@@ -160,7 +206,7 @@ router.post('/login', [
 // Getting logged in user details using POST "/api/auth/getuser"
 router.post('/getuser', fetchuser, async (req, res) => {
     try {
-        userId = req.user.id;
+        let userId = req.user.id;
         const user = await User.findById(userId).select("-password");
         res.send(user);
     } catch (error) {
@@ -175,6 +221,17 @@ router.get('/verify', async (req, res) => {
         const verifyToken = jwt.verify(token, JWT_SECRET);//JWT.VERIFY RETURNS DATA FROM WHICH HE HAD MADE THAT TOKEN
         // console.log(verifyToken);
         const verifiedUser = await User.findOne({ _id: verifyToken.user.id, "tokens.token": token }).select("-password")
+        // .populate({ //!NOT WORKING
+        //     path:'orders',
+        //     populate:{
+        //         path:'orderedItems',
+        //         populate:{
+        //             path:'productId',
+        //             model:'productModel'
+        //         }
+        //     }
+        // }) 
+
         if (verifiedUser) {
             // console.log(verifiedUser);
             res.status(200).json(verifiedUser);
@@ -182,6 +239,7 @@ router.get('/verify', async (req, res) => {
             res.status(404).send()
         }
     } catch (error) {
+        console.error(error);
         res.status(501).send('error happened at /verify')
     }
 })
@@ -216,6 +274,28 @@ router.post('/delete', async (req, res) => {
     let Cart = userDetail.myCart;
     Cart = Cart.filter(item => item.product._id !== req.body.productId)
     await User.findByIdAndUpdate(req.body.userId, { myCart: Cart })
+    res.status(204).send();
 })
+
+router.post('/addOrder',async(req,res)=>{
+    const {userId,orderedItems,phoneNo,streetAddress,city,zipCode,country,deliveryDate}=req.body;
+    try{
+        const user=await User.findById(userId);
+        user.orders=[...user.orders,{
+            orderedItems,
+            shippingAddress:{
+                phoneNo,streetAddress,city,zipCode,country
+            },
+            deliveryDate
+        }]
+        user.myCart=[];
+        let updatedUser=await User.findByIdAndUpdate(userId,user,{new:true});
+        res.status(201).json(updatedUser.orders);
+    }catch(error){
+        console.error(error);
+        res.status(400).send()
+    }
+})
+
 
 module.exports = router;

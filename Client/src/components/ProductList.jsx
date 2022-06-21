@@ -70,54 +70,54 @@ function ProductList(props) {
     >
       {
         <>
-          {productList.length ? <div id="carouselExampleIndicators" class="carousel slide " data-bs-ride="carousel">
+          {productList.length ? <div id="carouselExampleIndicators" className="carousel slide " data-bs-ride="carousel">
 
-            <div class="carousel-inner">
-              <div class="carousel-item active " data-bs-interval="2000" >
+            <div className="carousel-inner">
+              <div className="carousel-item active " data-bs-interval="2000" >
                 <Link style={{ color: "black" }} to='/product/6293e17305cc0cca7a52869e'>
                   <img className="carousel-img" src={"https://m.media-amazon.com/images/I/61Tc7hKz-lS._SX679_.jpg"} alt="..." />
-                  <div class="info">
+                  <div className="info">
                     <h5>Mi Smart Band 6</h5>
                     <h5>$34.99</h5>
                   </div>
                 </Link>
               </div>
-              <div class="carousel-item " data-bs-interval="2000">
+              <div className="carousel-item " data-bs-interval="2000">
                 <Link style={{ color: "black" }} to='/product/6295f8cceb1141d3a890c8d3'>
                   <img className="carousel-img" src={"http://i0.wp.com/living.ai/wp-content/uploads/2020/12/product2.jpg?resize=1536%2C1536&ssl=1"} alt="..." />
-                  <div class="info">
+                  <div className="info">
                     <h5>EMO: The Coolest AI Desktop Pet</h5>
                     <h5>$199.99</h5>
                   </div>
                 </Link>
               </div>
 
-              <div class="carousel-item" data-bs-interval="2000">
+              <div className="carousel-item" data-bs-interval="2000">
                 <Link style={{ color: "black" }} to='/product/6295fb8aeb1141d3a890c8d5'>
                   <img className="carousel-img" src={"http://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2Fe2%2Fb4%2Fe2b488f870a9306c4057e2c6f154cb3e76544599.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bmen_tshirtstanks_shortsleeve%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D"} alt="..." />
-                  <div class="info">
+                  <div className="info">
                     <h5>H&M : T-shirt</h5>
                     <h5>$69.9</h5>
                   </div>
                 </Link>
               </div>
-              <div class="carousel-item" data-bs-interval="2000">
+              <div className="carousel-item" data-bs-interval="2000">
                 <Link style={{ color: "black" }} to='/product/6296100beb1141d3a890c916'>
                   <img className="carousel-img" src={"http://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F62%2Fd4%2F62d43f21d0ea977e33de7c35a846cbc5a76ab644.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bladies_dresses_mididresses%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D"} alt="..." />
-                  <div class="info">
+                  <div className="info">
                     <h5>H&M : sleeveless Shirt</h5>
                     <h5>$99</h5>
                   </div>
                 </Link>
               </div>
             </div>
-            <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" ></span>
-              <span class="visually-hidden">Previous</span>
+            <button className="carousel-control-prev " type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span className="carousel-control-prev-icon" ></span>
+              <span className="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next " type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-              <span class="carousel-control-next-icon" ></span>
-              <span class="visually-hidden">Next</span>
+            <button className="carousel-control-next " type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span className="carousel-control-next-icon" ></span>
+              <span className="visually-hidden">Next</span>
             </button>
           </div> : <Skeleton style={{ width: "100%", height: "12rem" }}></Skeleton>}
           {productList.length !== 0 && (

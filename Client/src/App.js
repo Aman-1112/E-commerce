@@ -9,6 +9,7 @@ import SearchList from "./components/SearchList";
 import ProductPage from "./components/ProductPage";
 import CreateProduct from "./components/Temporary/CreateProduct";
 import ShoppingCart from "./components/ShoppingCart";
+import Shipping from"./components/Shipping";
 import { BrowserRouter as Router,Switch,Route} from "react-router-dom";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route exact path="/product/:productId" component={ProductPage}></Route>
           <Route exact path="/createproduct" component={CreateProduct}></Route>
           <Route exact path="/cart" component={ShoppingCart}></Route>
+          <Route exact path="/shipping" component={Shipping}></Route>
           <Route component={Errorpage}></Route>
         </Switch>
       </Router>

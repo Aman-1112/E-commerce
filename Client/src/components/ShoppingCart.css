@@ -29,3 +29,29 @@
         margin-bottom: 2rem;
     }
 }
+
+
+/* Shipping blackify */
+#step-icon .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-active {
+    color: black;
+}
+#step-icon .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed {
+    color: black;
+}
+#check-box .css-vqmohf-MuiButtonBase-root-MuiRadio-root.Mui-checked {
+    color: black;
+}
+#button:hover{
+    background-color: black;
+}
+/*.*/
+
+p{
+    margin:0;
+    margin-bottom: .25rem;
+}
+
+/**nav**/
+.navbar{
+    justify-content: right;
+}

@@ -46,6 +46,7 @@ export const verifyToken = (token) => {//VERIFYING USER AND UPDATING CART OF RED
                         token: token
                     }
                 });
+                console.log('verifytokens',res,res.data);
             }
             dispatch({ type: 'VERIFY_TOKEN', payload: res })//THIS WON'T RUN IF THERE WILL BE ERROR IN ABOVE REQUEST
         }
@@ -67,6 +68,16 @@ export const deleteItem = (ids) => {
         async (dispatch, _getState) => {
             dispatch({ type: 'DELETE_ITEM', payload: ids })
             await axios.post('/api/auth/delete', ids)
+        }
+    )
+}
+
+export const addOrder=(order)=>{
+    return(
+        async (dispatch)=>{
+            const res=await axios.post('/api/auth/addOrder',order)
+            console.log('locha',res);
+            dispatch({type:'ADD_ORDER',payload:res})
         }
     )
 }

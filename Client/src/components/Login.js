@@ -5,9 +5,10 @@ import FacebookIcon from '../images/facebook-icon.svg'
 import { connect } from 'react-redux'
 import { verifyToken } from './actions/index';
 import Google from './Google'
-import Facebook from './Facebook'
+// import Facebook from './Facebook'
 const Login = (props) => {
     const [credentials, setCredentials] = useState({ email: "", password: "" })
+    const [showPassword, setShowPassword] = useState(false);
     let history = useHistory();
 
     const handleSubmit = async (e) => {
@@ -51,9 +52,13 @@ const Login = (props) => {
                                 <label htmlFor="email" className="form-label">Email address</label>
                                 <input type="email" className="form-control" id="email" name='email' value={credentials.email} onChange={onChange} aria-describedby="emailHelp" />
                             </div>
-                            <div className="mb-3">
-                                <label htmlFor="password" className="form-label">Password</label>
-                                <input type="password" className="form-control" id="password" name='password' value={credentials.password} onChange={onChange} />
+                            
+                            <label htmlFor="password" className="form-label">Password</label>
+                            <div className="input-group mb-3 ">
+                                <input type={showPassword?"text":"password"} className="form-control" id="password" name='password' value={credentials.password} onChange={onChange} ></input>
+                                {showPassword?
+                                <span onClick={()=>setShowPassword(false)} class="input-group-text" id="basic-addon1"><i class="fa-solid fa-eye"></i></span>
+                                :<span onClick={()=>setShowPassword(true)} class="input-group-text" id="basic-addon1"><i class="fa-solid fa-eye-slash"></i></span>}
                             </div>
                             <div className="d-flex justify-content-between align-items-center">
                                 <button type="submit" className="btn btn-primary my-2 col-5">Login</button>
@@ -68,7 +73,7 @@ const Login = (props) => {
                             </div>
                             <div className="social-login-icons my-3 d-flex align-items-center justify-content-evenly">
                                 <Google />
-                                <Facebook />
+                                {/* <Facebook /> */}
                                 {/* <a href='/#'><img src={GoogleIcon} alt="Google" height={35} width={35} /></a> */}
                                 {/* <a href='/#'><img src={FacebookIcon} alt="Facebook" height={35} width={35} /></a> */}
                             </div>
